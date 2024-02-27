@@ -1,12 +1,12 @@
-#include "new_shell.h"
+#include "s_shell.h"
 
 /**
- * strchr - locates a character in a string
+ * _strchr - locates a character in a string
  * @str: the string
  * @c: the character
  * Return: a pointer to the memory area str
  */
-char *strchr(char *str, char c)
+char *_strchr(char *str, char c)
 {
 	do {
 		if (*str == c)
@@ -112,3 +112,16 @@ char **_strtok2(char *str, char delimiter)
 	return (result);
 }
 
+/**
+ * is_delimiter - check if character is a delimeter
+ * @c: char to check
+ * @dlm: delimeter
+ * Return: 1 if true 0 on failure
+ */
+int is_delimiter(char c, char *dlm)
+{
+	while (*dlm)
+		if (*dlm++ == c)
+			return (1);
+	return (0);
+}
