@@ -70,7 +70,12 @@ char *memSet(char *memory, char byte, unsigned int size);
 void freeStringArray(char **stringArray);
 void *reallocateMemory(void *prevPtr, unsigned int oldSize, unsigned int newSize);
 
-
+/* linked_lis */
+str_list_t *addNode(str_list_t **head, const char *data, int num);
+str_list_t *addNodeEnd(str_list_t **head, const char *data, int num);
+size_t printStr(const str_list_t *h);
+int deleteNodeAtIndex(str_list_t **head, unsigned int index);
+void freeList(str_list_t **head_ptr);
 
 #endif /* _S_SHELL_ */
 
