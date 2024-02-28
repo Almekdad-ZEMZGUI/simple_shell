@@ -8,15 +8,15 @@
  */
 int _strlen(char *str)
 {
-        int length = 0;
+	int length = 0;
 
-        if (!str)
-                return (0);
+	if (!str)
+		return (0);
 
-        while (*str++)
-                length++;
+	while (*str++)
+		length++;
 
-        return (length);
+	return (length);
 }
 
 /**
@@ -28,19 +28,19 @@ int _strlen(char *str)
  */
 int _strcmp(char *str1, char *str2)
 {
-        while (*str1 && *str2)
-        {
-                if (*str1 != *str2)
-                        return (*str1 - *str2);
+	while (*str1 && *str2)
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
 
-                str1++;
-                str2++;
-        }
+		str1++;
+		str2++;
+	}
 
-        if (*str1 == *str2)
-                return (0);
-        else
-                return (*str1 < *str2 ? -1 : 1);
+	if (*str1 == *str2)
+		return (0);
+	else
+		return (*str1 < *str2 ? -1 : 1);
 }
 
 /**
@@ -52,11 +52,11 @@ int _strcmp(char *str1, char *str2)
  */
 char *_starts_with(const char *haystack, const char *needle)
 {
-        while (*needle)
-                if (*needle++ != *haystack++)
-                        return (NULL);
+	while (*needle)
+		if (*needle++ != *haystack++)
+			return (NULL);
 
-        return ((char *)haystack);
+	return ((char *)haystack);
 }
 
 /**
@@ -68,16 +68,16 @@ char *_starts_with(const char *haystack, const char *needle)
  */
 char *_strcat(char *dest, char *src)
 {
-        char *result = dest;
+	char *result = dest;
 
-        while (*dest)
-                dest++;
+	while (*dest)
+		dest++;
 
-        while (*src)
-                *dest++ = *src++;
+	while (*src)
+		*dest++ = *src++;
 
-        *dest = *src;
-        return (result);
+	*dest = *src;
+	return (result);
 }
 
 /**
@@ -88,18 +88,18 @@ char *_strcat(char *dest, char *src)
  */
 int _putchar(char character)
 {
-        static int index;
-        static char buffer[WRITE_BUFFER_SIZE];
+	static int index;
+	static char buffer[WRITE_BUFFER_SIZE];
 
-        if (character == BUFFER_FLUSH || index >= WRITE_BUFFER_SIZE)
-        {
-                write(1, buffer, index);
-                index = 0;
-        }
+	if (character == BUFFER_FLUSH || index >= WRITE_BUFFER_SIZE)
+	{
+		write(1, buffer, index);
+		index = 0;
+	}
 
-        if (character != BUFFER_FLUSH)
-                buffer[index++] = character;
+	if (character != BUFFER_FLUSH)
+		buffer[index++] = character;
 
-        return (1);
+	return (1);
 }
 
