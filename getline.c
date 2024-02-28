@@ -56,12 +56,12 @@ ssize_t getInput(info_t *info)
 	_putchar(BUFFER_FLUSH);
 	bytesRead = bufferInput(info, &buffer, &length);
 	if (bytesRead == -1)
-		return -1;
+		return (-1);
 	if (length)
 	{
 		j = i;
 		ptr = buffer + i;
-		checkChain(info, buffer, &j, i, length);
+		checkCommandChain(info, buffer, &j, i, length);
 		while (j < length)
 		{
 			if (isCommandChain(info, buffer, &j))
@@ -77,11 +77,11 @@ ssize_t getInput(info_t *info)
 		}
 
 		*bufferPointer = ptr;
-		return _strlen(ptr);
+		return (_strlen(ptr));
 	}
 
 	*bufferPointer = buffer;
-	return bytesRead;
+	return (bytesRead);
 }
 
 /**
@@ -97,11 +97,11 @@ ssize_t readBuffer(info_t *info, char *buf, size_t *i)
 	ssize_t bytesRead = 0;
 
 	if (*i)
-		return 0;
+		return (0);
 	bytesRead = read(info->readFd, buf, READ_BUFFER_SIZE);
 	if (bytesRead >= 0)
 		*i = bytesRead;
-	return bytesRead;
+	return (bytesRead);
 }
 
 /**
@@ -117,38 +117,38 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	static char buf[READ_BUFFER_SIZE];
 	static size_t bufferIndex, bufferLength;
 	size_t k;
-	ssize_t bytesRead = 0, totalBytesRead = 0;
-	char *currentBuffer = NULL, *newBuffer = NULL, *c;
+	ssize_t bytesRead = 0, bytes = 0;
+	char *currBuf = NULL, *newBuffer = NULL, *c;
 
-	currentBuffer = *ptr;
-	if (currentBuffer && length)
-		totalBytesRead = *length;
+	currBuf = *ptr;
+	if (currBuf && length)
+		bytes = *length;
 	if (bufferIndex == bufferLength)
 		bufferIndex = bufferLength = 0;
 
 	bytesRead = readBuffer(info, buf, &bufferLength);
 	if (bytesRead == -1 || (bytesRead == 0 && bufferLength == 0))
-		return -1;
+		return (-1);
 
 	c = _strchr(buf + bufferIndex, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : bufferLength;
-	newBuffer = reallocateMemory(currentBuffer, totalBytesRead, totalBytesRead ? totalBytesRead + k : k + 1);
+	newBuffer = _realloc(currBuf, bytes, bytes ? bytes + k : k + 1);
 	if (!newBuffer)
-		return currentBuffer ? free(currentBuffer), -1 : -1;
+		return (currBuf ? free(currBuf), -1 : -1);
 
-	if (totalBytesRead)
+	if (bytes)
 		_strncat(newBuffer, buf + bufferIndex, k - bufferIndex);
 	else
 		_strncpy(newBuffer, buf + bufferIndex, k - bufferIndex + 1);
 
-	totalBytesRead += k - bufferIndex;
+	bytes += k - bufferIndex;
 	bufferIndex = k;
-	currentBuffer = newBuffer;
+	currBuf = newBuffer;
 
 	if (length)
-		*length = totalBytesRead;
-	*ptr = currentBuffer;
-	return totalBytesRead;
+		*length = bytes;
+	*ptr = currBuf;
+	return (bytes);
 }
 
 /**
@@ -163,5 +163,6 @@ void interruptHandler(__attribute__((unused))int signalNumber)
 	_puts("$ ");
 	_putchar(BUFFER_FLUSH);
 }
+
 
 
