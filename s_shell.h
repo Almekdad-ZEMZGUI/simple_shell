@@ -41,7 +41,7 @@ typedef struct StringList
     int num;
     char *data;
     struct StringList *next;
-} _list_t;
+} str_list_t;
 
 /**
  *struct builtin - contains a builtin string and related function
@@ -97,7 +97,7 @@ typedef struct passinfo
 	unsigned int line_count;
 	int err_num;
 	int linecount_flag;
-} _info_t;
+} info_t;
 
 #define INFO_ZERO \
 {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
