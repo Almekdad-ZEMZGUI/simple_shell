@@ -31,7 +31,7 @@
 #define HIST_MAX 4096
 
 /**
- * struct liststr - singly linked list
+ * struct StringList - singly linked list
  * @num: the number field
  * @str: string
  * @next: points to the next node
@@ -54,7 +54,7 @@ typedef struct StringList
  *@environ: custom modified copy of environ from env
  *@history: history node
  *@alias: alias node
- *@env_changed: on if environ was changed
+ *@environmentChanged: on if environ was changed
  *@status: the return status of the last exec'd command
  *@cmdBuffer: pointer
  *@commandBufferType: CMD_type
