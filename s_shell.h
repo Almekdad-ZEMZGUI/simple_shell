@@ -97,6 +97,25 @@ void print_custom_err(info_t *info, char *err_string);
 int print_int(int input, int fd);
 char *convert_to_string(long int num, int base, int flags);
 
+/* builtin_func */
+int exit_shell(info_t *info);
+int change_directory(info_t *info);
+int show_help(info_t *info);
+int display_history(info_t *info);
+int manage_alias(info_t *info);
+
+/* builtin_sub_func */
+int remove_alias(info_t *info, char *str);
+int assign_alias(info_t *info, char *str);
+int display_alias(list_t *node);
+
+/* getline */
+ssize_t bufferInput(info_t *info, char **buffer, size_t *length);
+ssize_t getInput(info_t *info);
+ssize_t readBuffer(info_t *info, char *buf, size_t *i);
+int _getline(info_t *info, char **ptr, size_t *length);
+void interruptHandler(__attribute__((unused))int signalNumber);
+
 
 #endif /* _S_SHELL_ */
 
