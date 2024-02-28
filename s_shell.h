@@ -41,7 +41,68 @@ typedef struct StringList
     int num;
     char *data;
     struct StringList *next;
-} str_list_t;
+} _list_t;
+
+/**
+ *struct builtin - contains a builtin string and related function
+ *@type: the builtin command
+ *@func: the function
+ */
+typedef struct builtin
+{
+	char *type;
+	int (*func)(info_t *);
+} _builtin_tbl;
+
+/**
+ *struct passinfo - contains arguements to pass into a function
+ *
+ *@arg: string from getline containing arguments
+ *@argv: array of strings
+ *@path: string path for current command
+ *@fname: the program filename
+ *@env: linkedlist local copy of environ
+ *@environ: custom modified copy of environ from env
+ *@history: history node
+ *@alias: alias node
+ *@env_changed: on if environ was changed
+ *@status: the return status of the last exec'd command
+ *@cmd_buf: pointer
+ *@cmd_buf_type: CMD_type
+ *@readfd: fd from which to read line input
+ *@histcount: history line number count
+ *@argc: argument count
+ *@line_count: error count
+ *@err_num: error code for exit
+ *@linecount_flag: on count this line of input
+ */
+typedef struct passinfo
+{
+	char *arg;
+	char **argv;
+	char *path;
+	char *fname;
+	list_t *env;
+	list_t *history;
+	list_t *alias;
+	char **environ;
+	int env_changed;
+	int status;
+
+	char **cmd_buf;
+	int cmd_buf_type;
+	int readfd;
+	int histcount;
+	int argc;
+	unsigned int line_count;
+	int err_num;
+	int linecount_flag;
+} _info_t;
+
+#define INFO_ZERO \
+{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
+	0, 0, 0, 0, 0, 0, 0, }
+
 
 /* str_func1 */
 int _strlen(char *str);
@@ -134,6 +195,17 @@ int populateEnvironmentList(info_t *info);
 char **copyEnvironToStringArray(info_t *info);
 int removeEnvironmentVariable(info_t *info, char *variable);
 int setEnvironmentVariable(info_t *info, char *variable, char *value);
+
+/* shell_loop */
+int shellLoop(info_t *info, char **argv);
+int findBuiltin(info_t *info);
+void findCommand(info_t *info);
+void forkCommand(info_t *info);
+
+/* info_func */
+void clearInfo(info_t *info);
+void setInfo(info_t *info, char **argv);
+void freeInfo(info_t *info, int all);
 
 
 #endif /* _S_SHELL_ */
