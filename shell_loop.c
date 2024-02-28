@@ -1,5 +1,4 @@
-
-#include "shell.h"
+#include "s_shell.h"
 
 /**
  * shellLoop - main shell loop
@@ -16,7 +15,7 @@ int shellLoop(info_t *info, char **argv)
     while (bytesRead != -1 && builtinReturn != -2)
     {
         clearInfo(info);
-        if (interactive(info))
+        if (check_interactive_mode(info))
             _puts("$ ");
         _eputchar(BUFFER_FLUSH);
         bytesRead = getInput(info);
@@ -27,13 +26,13 @@ int shellLoop(info_t *info, char **argv)
             if (builtinReturn == -1)
                 findCommand(info);
         }
-        else if (interactive(info))
+        else if (check_interactive_mode(info))
             _putchar('\n');
         freeInfo(info, 0);
     }
     writeHistory(info);
     freeInfo(info, 1);
-    if (!interactive(info) && info->status)
+    if (!check_interactive_mode(info) && info->status)
         exit(info->status);
     if (builtinReturn == -2)
     {
@@ -69,7 +68,7 @@ int findBuiltin(info_t *info)
     };
 
     for (i = 0; builtinTable[i].type; i++)
-        if (_strcmp(info->argv[0], builtinTable[i].type) == 0)
+        if (_strcmp(info->arguments[0], builtinTable[i].type) == 0)
         {
             info->lineCount++;
             builtinReturn = builtinTable[i].func(info);
@@ -89,7 +88,7 @@ void findCommand(info_t *info)
     char *commandPath = NULL;
     int i, countArgs;
 
-    info->path = info->argv[0];
+    info->path = info->arguments[0];
     if (info->lineCountFlag == 1)
     {
         info->lineCount++;
@@ -101,7 +100,7 @@ void findCommand(info_t *info)
     if (!countArgs)
         return;
 
-    commandPath = findPath(info, getEnvironmentVariable(info, "PATH="), info->argv[0]);
+    commandPath = findPath(info, getEnvironmentVariable(info, "PATH="), info->arguments[0]);
     if (commandPath)
     {
         info->path = commandPath;
@@ -109,7 +108,7 @@ void findCommand(info_t *info)
     }
     else
     {
-        if ((interactive(info) || getEnvironmentVariable(info, "PATH=") || info->argv[0][0] == '/') && isCmd(info, info->argv[0]))
+        if ((interactive(info) || getEnvironmentVariable(info, "PATH=") || info->arguments[0][0] == '/') && isCmd(info, info->arguments[0]))
             forkCommand(info);
         else if (*(info->arg) != '\n')
         {
@@ -137,7 +136,7 @@ void forkCommand(info_t *info)
     }
     if (childPid == 0)
     {
-        if (execve(info->path, info->argv, copyEnvironToStringArray(info)) == -1)
+        if (execve(info->path, info->arguments, copyEnvironToStringArray(info)) == -1)
         {
             freeInfo(info, 1);
             if (errno == EACCES)
@@ -156,4 +155,5 @@ void forkCommand(info_t *info)
         }
     }
 }
+
 

@@ -92,6 +92,8 @@ typedef struct passinfo
 {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0, 0, 0, 0, 0, }
 
+extern char **environ;
+
 /**
  *struct builtin - contains a builtin string and related function
  *@type: the builtin command

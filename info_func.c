@@ -7,9 +7,9 @@
 void clearInfo(info_t *info)
 {
 	info->arg = NULL;
-	info->argv = NULL;
+	info->arguments = NULL;
 	info->path = NULL;
-	info->argc = 0;
+	info->argumentCount = 0;
 }
 
 /**
@@ -24,20 +24,20 @@ void setInfo(info_t *info, char **argv)
 	info->fname = argv[0];
 	if (info->arg)
 	{
-		info->argv = _strtok(info->arg, " \t");
-		if (!info->argv)
+		info->arguments = _strtok(info->arg, " \t");
+		if (!info->arguments)
 		{
 
-			info->argv = malloc(sizeof(char *) * 2);
-			if (info->argv)
+			info->arguments = malloc(sizeof(char *) * 2);
+			if (info->arguments)
 			{
-				info->argv[0] = _strdup(info->arg);
-				info->argv[1] = NULL;
+				info->arguments[0] = _strdup(info->arg);
+				info->arguments[1] = NULL;
 			}
 		}
-		for (i = 0; info->argv && info->argv[i]; i++)
+		for (i = 0; info->arguments && info->arguments[i]; i++)
 			;
-		info->argc = i;
+		info->argumentCount = i;
 
 		replaceAliases(info);
 		replaceVariables(info);
@@ -53,24 +53,24 @@ void setInfo(info_t *info, char **argv)
  */
 void freeInfo(info_t *info, int all)
 {
-	freeStringArray(info->argv);
-	info->argv = NULL;
+	freeStringArray(info->arguments);
+	info->arguments = NULL;
 	info->path = NULL;
 	if (all)
 	{
 		if (!info->cmdBuffer)
 			free(info->arg);
-		if (info->env)
-			freeList(&(info->env));
+		if (info->environment)
+			freeList(&(info->environment));
 		if (info->history)
 			freeList(&(info->history));
 		if (info->alias)
 			freeList(&(info->alias));
 		freeStringArray(info->environ);
 			info->environ = NULL;
-		freeStringArray((void **)info->cmdBuffer);
-		if (info->readfd > 2)
-			close(info->readfd);
+		freePointer((void **)info->cmdBuffer);
+		if (info->readFd > 2)
+			close(info->readFd);
 		_putchar(BUFFER_FLUSH);
 	}
 }

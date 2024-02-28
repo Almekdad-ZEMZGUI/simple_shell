@@ -38,9 +38,9 @@ void print_custom_err(info_t *info, char *err_string)
 {
 	_eputs(info->fname);
 	_eputs(": ");
-	print_integer(info->line_count, STDERR_FILENO);
+	print_int(info->lineCountFlag, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(info->argv[0]);
+	_eputs(info->arguments[0]);
 	_eputs(": ");
 	_eputs(err_string);
 }
@@ -118,4 +118,5 @@ char *convert_to_string(long int num, int base, int flags)
 		*--p = sign;
 	return (p);
 }
+
 

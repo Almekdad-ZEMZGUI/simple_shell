@@ -126,7 +126,7 @@ int replaceVariables(info_t *info)
 				_strdup(convert_to_string(getpid(), 10, 0)));
 			continue;
 		}
-		node = nodePrefix(info->env, &info->arguments[i][1], '=');
+		node = nodePrefix(info->environment, &info->arguments[i][1], '=');
 		if (node)
 		{
 			replaceString(&(info->arguments[i]),

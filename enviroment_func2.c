@@ -7,13 +7,13 @@
  */
 char **copyEnvironToStringArray(info_t *info)
 {
-    if (!info->environment || info->environmentChanged)
+    if (!info->environ || info->environmentChanged)
     {
-        info->environment = listToString(info->env);
+        info->environ = listToString(info->environment);
         info->environmentChanged = 0;
     }
 
-    return (info->environment);
+    return (info->environ);
 }
 
 /**
@@ -83,7 +83,7 @@ int setEnvironmentVariable(info_t *info, char *variable, char *value)
         }
         node = node->next;
     }
-    addNodeEnd(&(info->env), buffer, 0);
+    addNodeEnd(&(info->environment), buffer, 0);
     free(buffer);
     info->environmentChanged = 1;
     return (0);

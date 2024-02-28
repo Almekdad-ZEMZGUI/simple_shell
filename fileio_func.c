@@ -33,7 +33,7 @@ char *getHistoryFile(info_t *info)
 int writeHistory(info_t *info)
 {
 	ssize_t fd;
-	char *filename = get_history_file(info);
+	char *filename = getHistoryFile(info);
 	str_list_t *node = NULL;
 
 	if (!filename)
@@ -48,7 +48,7 @@ int writeHistory(info_t *info)
 		_putsfd(node->str, fd);
 		_putfd('\n', fd);
 	}
-	_putfd(BUF_FLUSH, fd);
+	_putfd(BUFFER_FLUSH, fd);
 	close(fd);
 	return (1);
 }
@@ -64,7 +64,7 @@ int readHistory(info_t *info)
 	int i, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buffer = NULL, *filename = get_history_file(info);
+	char *buffer = NULL, *filename = getHistoryFile(info);
 
 	if (!filename)
 		return (0);
@@ -97,8 +97,8 @@ int readHistory(info_t *info)
 	free(buffer);
 	info->histcount = linecount;
 	while (info->histcount-- >= HIST_MAX)
-		delete_node_at_index(&(info->history), 0);
-	renumber_history(info);
+		deleteNodeAtIndex(&(info->history), 0);
+	renumberHistory(info);
 	return (info->histcount);
 }
 
@@ -116,7 +116,7 @@ int buildHistoryList(info_t *info, char *buffer, int linecount)
 
 	if (info->history)
 		node = info->history;
-	add_node_end(&node, buffer, linecount);
+	addNodeEnd(&node, buffer, linecount);
 
 	if (!info->history)
 		info->history = node;

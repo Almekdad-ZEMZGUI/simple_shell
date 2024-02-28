@@ -107,7 +107,7 @@ str_list_t *nodePrefix(str_list_t *node, char *pre, char c)
  *
  * Return: index of the node, or -1 on failure
  */
-ssize_t getNodeIndex(list_t *head, list_t *node)
+ssize_t getNodeIndex(str_list_t *head, str_list_t *node)
 {
 	size_t index = 0;
 

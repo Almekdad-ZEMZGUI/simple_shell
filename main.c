@@ -35,11 +35,12 @@ int main(int argc, char **argv)
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = fd;
+		info->readFd = fd;
 	}
 	populateEnvironmentList(info);
 	readHistory(info);
-	shellLoop(info, av);
+	shellLoop(info, argv);
 	return (EXIT_SUCCESS);
 }
+
 

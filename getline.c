@@ -32,7 +32,7 @@ ssize_t bufferInput(info_t *info, char **buffer, size_t *length)
 			}
 			info->lineCountFlag = 1;
 			erase_comments(*buffer);
-			buildHistoryList(info, *buffer, info->histCount++);
+			buildHistoryList(info, *buffer, info->histcount++);
 			*length = bytesRead;
 			info->cmdBuffer = buffer;
 		}
