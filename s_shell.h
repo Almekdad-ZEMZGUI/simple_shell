@@ -123,6 +123,18 @@ int replaceAliases(info_t *info);
 int replaceVariables(info_t *info);
 int replaceString(char **oldString, char *newString);
 
+/* enviroment_func1 */
+int displayEnvironment(info_t *info);
+char *getEnvironmentVariable(info_t *info, const char *name);
+int _mysetenv(info_t *info);
+int unsetEnvironmentVariable(info_t *info);
+int populateEnvironmentList(info_t *info);
+
+/* enviroment_func2 */
+char **copyEnvironToStringArray(info_t *info);
+int removeEnvironmentVariable(info_t *info, char *variable);
+int setEnvironmentVariable(info_t *info, char *variable, char *value);
+
 
 #endif /* _S_SHELL_ */
 
