@@ -7,13 +7,13 @@
  */
 char **copyEnvironToStringArray(info_t *info)
 {
-    if (!info->environ || info->environmentChanged)
-    {
-        info->environ = listToString(info->environment);
-        info->environmentChanged = 0;
-    }
+	if (!info->environ || info->environmentChanged)
+	{
+		info->environ = listToString(info->environment);
+		info->environmentChanged = 0;
+	}
 
-    return (info->environ);
+	return (info->environ);
 }
 
 /**
@@ -24,27 +24,27 @@ char **copyEnvironToStringArray(info_t *info)
  */
 int removeEnvironmentVariable(info_t *info, char *variable)
 {
-    str_list_t *node = info->environment;
-    size_t index = 0;
-    char *p;
+	str_list_t *node = info->environment;
+	size_t index = 0;
+	char *p;
 
-    if (!node || !variable)
-        return (0);
+	if (!node || !variable)
+		return (0);
 
-    while (node)
-    {
-        p = _starts_with(node->str, variable);
-        if (p && *p == '=')
-        {
-            info->environmentChanged = deleteNodeAtIndex(&(info->environment), index);
-            index = 0;
-            node = info->environment;
-            continue;
-        }
-        node = node->next;
-        index++;
-    }
-    return (info->environmentChanged);
+	while (node)
+	{
+		p = _starts_with(node->str, variable);
+		if (p && *p == '=')
+		{
+			info->environmentChanged = deleteNodeAtIndex(&(info->environment), index);
+			index = 0;
+			node = info->environment;
+			continue;
+		}
+		node = node->next;
+		index++;
+	}
+	return (info->environmentChanged);
 }
 
 /**
@@ -57,36 +57,36 @@ int removeEnvironmentVariable(info_t *info, char *variable)
  */
 int setEnvironmentVariable(info_t *info, char *variable, char *value)
 {
-    char *buffer = NULL;
-    str_list_t *node;
-    char *p;
+	char *buffer = NULL;
+	str_list_t *node;
+	char *p;
 
-    if (!variable || !value)
-        return (0);
+	if (!variable || !value)
+		return (0);
 
-    buffer = malloc(_strlen(variable) + _strlen(value) + 2);
-    if (!buffer)
-        return (1);
-    _strcpy(buffer, variable);
-    _strcat(buffer, "=");
-    _strcat(buffer, value);
-    node = info->environment;
-    while (node)
-    {
-        p = _starts_with(node->str, variable);
-        if (p && *p == '=')
-        {
-            free(node->str);
-            node->str = buffer;
-            info->environmentChanged = 1;
-            return (0);
-        }
-        node = node->next;
-    }
-    addNodeEnd(&(info->environment), buffer, 0);
-    free(buffer);
-    info->environmentChanged = 1;
-    return (0);
+	buffer = malloc(_strlen(variable) + _strlen(value) + 2);
+	if (!buffer)
+		return (1);
+	_strcpy(buffer, variable);
+	_strcat(buffer, "=");
+	_strcat(buffer, value);
+	node = info->environment;
+	while (node)
+	{
+		p = _starts_with(node->str, variable);
+		if (p && *p == '=')
+		{
+			free(node->str);
+			node->str = buffer;
+			info->environmentChanged = 1;
+			return (0);
+		}
+		node = node->next;
+	}
+	addNodeEnd(&(info->environment), buffer, 0);
+	free(buffer);
+	info->environmentChanged = 1;
+	return (0);
 }
 
 
