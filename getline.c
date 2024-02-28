@@ -27,7 +27,7 @@ ssize_t bufferInput(info_t *info, char **buffer, size_t *length)
 		{
 			if ((*buffer)[bytesRead - 1] == '\n')
 			{
-				(*buffer)[bytesRead - 1] = '\0'; /* remove trailing newline */
+				(*buffer)[bytesRead - 1] = '\0';
 				bytesRead--;
 			}
 			info->lineCountFlag = 1;

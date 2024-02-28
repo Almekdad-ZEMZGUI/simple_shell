@@ -116,6 +116,13 @@ ssize_t readBuffer(info_t *info, char *buf, size_t *i);
 int _getline(info_t *info, char **ptr, size_t *length);
 void interruptHandler(__attribute__((unused))int signalNumber);
 
+/* chain_func */
+int isCommandChain(info_t *info, char *buffer, size_t *position);
+void checkCommandChain(info_t *info, char *buffer, size_t *position, size_t startIndex, size_t length);
+int replaceAliases(info_t *info);
+int replaceVariables(info_t *info);
+int replaceString(char **oldString, char *newString);
+
 
 #endif /* _S_SHELL_ */
 
