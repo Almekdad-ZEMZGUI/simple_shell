@@ -108,7 +108,7 @@ void findCommand(info_t *info)
     }
     else
     {
-        if ((interactive(info) || getEnvironmentVariable(info, "PATH=") || info->arguments[0][0] == '/') && isCmd(info, info->arguments[0]))
+        if ((check_interactive_mode(info) || getEnvironmentVariable(info, "PATH=") || info->arguments[0][0] == '/') && isCmd(info, info->arguments[0]))
             forkCommand(info);
         else if (*(info->arg) != '\n')
         {
