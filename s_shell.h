@@ -207,6 +207,11 @@ void clearInfo(info_t *info);
 void setInfo(info_t *info, char **argv);
 void freeInfo(info_t *info, int all);
 
+/* path_func */
+int isCmd(info_t *info, char *path);
+char *dupChars(char *pathstr, int start, int stop);
+char *findPath(info_t *info, char *spath, char *cmd);
+
 
 #endif /* _S_SHELL_ */
 
