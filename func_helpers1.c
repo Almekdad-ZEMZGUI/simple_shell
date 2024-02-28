@@ -40,7 +40,7 @@ int is_alpha_character(int c)
 
 /**
  * _atoi - converts a string to an integer
- * @s: the string to be converted
+ * @str: the string to be converted
  * Return: 0 if no numbers in string, otherwise converted number
  */
 int _atoi(char *str)

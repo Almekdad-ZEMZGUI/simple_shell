@@ -28,7 +28,7 @@ int safe_atoi(char *str)
 }
 
 /**
- * print_err - prints an error message
+ * print_custom_err - prints an error message
  * @info: the parameter & return info struct
  * @err_string: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise

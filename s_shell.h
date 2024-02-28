@@ -38,9 +38,9 @@
  */
 typedef struct StringList
 {
-    int num;
-    char *str;
-    struct StringList *next;
+	int num;
+	char *str;
+	struct StringList *next;
 } str_list_t;
 
 /**

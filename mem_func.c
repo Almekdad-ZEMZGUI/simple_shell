@@ -49,10 +49,10 @@ void freeStringArray(char **stringArray)
 }
 
 /**
- * reallocateMemory - reallocates a block of memory
- * @prevPtr: pointer to previous malloc'ated block
- * @oldSize: byte size of the previous block
- * @newSize: byte size of the new block
+ * _realloc - reallocates a block of memory
+ * @prePtr: pointer to previous malloc'ated block
+ * @os: byte size of the previous block
+ * @ns: byte size of the new block
  *
  * Return: pointer to da ol'block nameen.
  */

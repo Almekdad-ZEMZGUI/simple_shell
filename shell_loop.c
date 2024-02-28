@@ -100,7 +100,8 @@ void findCommand(info_t *info)
 	if (!countArgs)
 		return;
 
-	commandPath = findPath(info, getEnvironmentVariable(info, "PATH="), info->arguments[0]);
+	commandPath = findPath(info, getEnvironmentVariable(info, "PATH="),
+			info->arguments[0]);
 	if (commandPath)
 	{
 		info->path = commandPath;
@@ -108,7 +109,8 @@ void findCommand(info_t *info)
 	}
 	else
 	{
-		if ((check_interactive_mode(info) || getEnvironmentVariable(info, "PATH=") || info->arguments[0][0] == '/') && isCmd(info, info->arguments[0]))
+		if ((check_interactive_mode(info) || getEnvironmentVariable(info, "PATH=")
+					|| info->arguments[0][0] == '/') && isCmd(info, info->arguments[0]))
 			forkCommand(info);
 		else if (*(info->arg) != '\n')
 		{
@@ -136,7 +138,8 @@ void forkCommand(info_t *info)
 	}
 	if (childPid == 0)
 	{
-		if (execve(info->path, info->arguments, copyEnvironToStringArray(info)) == -1)
+		if (execve(info->path, info->arguments,
+					copyEnvironToStringArray(info)) == -1)
 		{
 			freeInfo(info, 1);
 			if (errno == EACCES)
