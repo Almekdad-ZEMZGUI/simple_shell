@@ -130,7 +130,7 @@ int is_delimiter(char c, char *dlm);
 int freePointer(void **ptr);
 char *memSet(char *memory, char byte, unsigned int size);
 void freeStringArray(char **stringArray);
-void *reallocateMemory(void *prevPtr, unsigned int oldSize, unsigned int newSize);
+void *_realloc(void *prePtr, unsigned int os, unsigned int ns);
 
 /* linked_lis */
 str_list_t *addNode(str_list_t **head, const char *data, int num);
