@@ -77,5 +77,26 @@ size_t printStr(const str_list_t *h);
 int deleteNodeAtIndex(str_list_t **head, unsigned int index);
 void freeList(str_list_t **head_ptr);
 
+/* likend_lis2 */
+size_t listLen(const list_t *head);
+char **listToString(list_t *head);
+size_t printList(const list_t *head);
+list_t *nodePrefix(list_t *node, char *pre, char c);
+ssize_t getNodeIndex(list_t *head, list_t *node);
+
+/* func_helpers1 */
+int check_interactive_mode(info_t *info);
+int is_character_delimiter(char c, char *delimiter);
+int is_alpha_character(int c);
+int _atoi(char *str);
+void erase_comments(char *buffer);
+
+/* func_helpers2 */
+int safe_atoi(char *str);
+void print_custom_err(info_t *info, char *err_string);
+int print_int(int input, int fd);
+char *convert_to_string(long int num, int base, int flags);
+
+
 #endif /* _S_SHELL_ */
 
