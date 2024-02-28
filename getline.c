@@ -61,7 +61,7 @@ ssize_t getInput(info_t *info)
 	{
 		j = i;
 		ptr = buffer + i;
-		checkCommandChain(info, buffer, &j, i, length);
+		checkChain(info, buffer, &j, i, length);
 		while (j < length)
 		{
 			if (isCommandChain(info, buffer, &j))

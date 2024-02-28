@@ -56,25 +56,25 @@ void freeStringArray(char **stringArray)
  *
  * Return: pointer to da ol'block nameen.
  */
-void *reallocateMemory(void *prevPtr, unsigned int oldSize, unsigned int newSize)
+void *_realloc(void *prePtr, unsigned int os, unsigned int ns)
 {
 	char *newPtr;
 
-	if (!prevPtr)
-		return (malloc(newSize));
-	if (!newSize)
-		return (free(prevPtr), NULL);
-	if (newSize == oldSize)
-		return (prevPtr);
+	if (!prePtr)
+		return (malloc(ns));
+	if (!ns)
+		return (free(prePtr), NULL);
+	if (ns == os)
+		return (prePtr);
 
-	newPtr = malloc(newSize);
+	newPtr = malloc(ns);
 	if (!newPtr)
 		return (NULL);
 
-	oldSize = oldSize < newSize ? oldSize : newSize;
-	while (oldSize--)
-		newPtr[oldSize] = ((char *)prevPtr)[oldSize];
-	free(prevPtr);
+	os = os < ns ? os : ns;
+	while (os--)
+		newPtr[os] = ((char *)prePtr)[os];
+	free(prePtr);
 	return (newPtr);
 }
 
