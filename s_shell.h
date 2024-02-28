@@ -180,7 +180,7 @@ void interruptHandler(__attribute__((unused))int signalNumber);
 
 /* chain_func */
 int isCommandChain(info_t *info, char *buffer, size_t *position);
-void checkCommandChain(info_t *info, char *buffer, size_t *position, size_t startIndex, size_t length);
+void checkChain(info_t *info, char *buf, size_t *pos, size_t i, size_t l);
 int replaceAliases(info_t *info);
 int replaceVariables(info_t *info);
 int replaceString(char **oldString, char *newString);

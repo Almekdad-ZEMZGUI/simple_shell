@@ -24,49 +24,49 @@ int isCommandChain(info_t *info, char *buffer, size_t *position)
 		index++;
 		info->commandBufferType = COMMAND_AND;
 	}
-	else if (buffer[index] == ';') /* found end of this command */
+	else if (buffer[index] == ';')
 	{
-		buffer[index] = 0; /* replace semicolon with null */
+		buffer[index] = 0;
 		info->commandBufferType = COMMAND_CHAIN;
 	}
 	else
-		return 0;
+		return (0);
 	*position = index;
-	return 1;
+	return (1);
 }
 
 /**
- * checkCommandChain - checks if we should continue chaining based on the last status
+ * checkChain - checks if should continue chaining
  * @info: the parameter struct
- * @buffer: the char buffer
- * @position: address of current position in buffer
- * @startIndex: starting position in buffer
- * @length: length of buffer
+ * @buf: the char buffer
+ * @pos: address of current position
+ * @i: starting index
+ * @l: length of buffer
  *
  * Return: Void
  */
-void checkCommandChain(info_t *info, char *buffer, size_t *position, size_t startIndex, size_t length)
+void checkChain(info_t *info, char *buf, size_t *pos, size_t i, size_t l)
 {
-	size_t index = *position;
+	size_t index = *pos;
 
 	if (info->commandBufferType == COMMAND_AND)
 	{
 		if (info->status)
 		{
-			buffer[startIndex] = 0;
-			index = length;
+			buf[i] = 0;
+			index = l;
 		}
 	}
 	if (info->commandBufferType == COMMAND_OR)
 	{
 		if (!info->status)
 		{
-			buffer[startIndex] = 0;
-			index = length;
+			buf[i] = 0;
+			index = l;
 		}
 	}
 
-	*position = index;
+	*pos = index;
 }
 
 /**
@@ -85,17 +85,17 @@ int replaceAliases(info_t *info)
 	{
 		node = nodePrefix(info->alias, info->arguments[0], '=');
 		if (!node)
-			return 0;
+			return (0);
 		free(info->arguments[0]);
 		p = _strchr(node->str, '=');
 		if (!p)
-			return 0;
+			return (0);
 		p = _strdup(p + 1);
 		if (!p)
-			return 0;
+			return (0);
 		info->arguments[0] = p;
 	}
-	return 1;
+	return (1);
 }
 
 /**
@@ -136,7 +136,7 @@ int replaceVariables(info_t *info)
 		replaceString(&info->arguments[i], _strdup(""));
 
 	}
-	return 0;
+	return (0);
 }
 
 /**
@@ -150,8 +150,9 @@ int replaceString(char **oldString, char *newString)
 {
 	free(*oldString);
 	*oldString = newString;
-	return 1;
+	return (1);
 }
+
 
 
 
