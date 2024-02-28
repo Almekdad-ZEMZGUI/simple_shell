@@ -24,7 +24,7 @@ void setInfo(info_t *info, char **argv)
 	info->fname = argv[0];
 	if (info->arg)
 	{
-		info->argv = strtow(info->arg, " \t");
+		info->argv = _strtok(info->arg, " \t");
 		if (!info->argv)
 		{
 
@@ -39,8 +39,8 @@ void setInfo(info_t *info, char **argv)
 			;
 		info->argc = i;
 
-		replace_alias(info);
-		replace_vars(info);
+		replaceAliases(info);
+		replaceVariables(info);
 	}
 }
 
@@ -58,20 +58,21 @@ void freeInfo(info_t *info, int all)
 	info->path = NULL;
 	if (all)
 	{
-		if (!info->cmd_buf)
+		if (!info->cmdBuffer)
 			free(info->arg);
 		if (info->env)
-			free_list(&(info->env));
+			freeList(&(info->env));
 		if (info->history)
-			free_list(&(info->history));
+			freeList(&(info->history));
 		if (info->alias)
-			free_list(&(info->alias));
+			freeList(&(info->alias));
 		freeStringArray(info->environ);
 			info->environ = NULL;
-		freeStringArray((void **)info->cmd_buf);
+		freeStringArray((void **)info->cmdBuffer);
 		if (info->readfd > 2)
 			close(info->readfd);
 		_putchar(BUFFER_FLUSH);
 	}
 }
+
 

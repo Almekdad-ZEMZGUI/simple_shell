@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "s_shell.h"
 
 /**
  * safe_atoi - converts a string to an integer

@@ -20,7 +20,7 @@ int displayEnvironment(info_t *info)
  */
 char *getEnvironmentVariable(info_t *info, const char *name)
 {
-    list_t *node = info->environment;
+    str_list_t *node = info->environment;
     char *p;
 
     while (node)
@@ -78,7 +78,7 @@ int unsetEnvironmentVariable(info_t *info)
  */
 int populateEnvironmentList(info_t *info)
 {
-    list_t *node = NULL;
+    str_list_t *node = NULL;
     size_t i;
 
     for (i = 0; environ[i]; i++)
@@ -86,4 +86,5 @@ int populateEnvironmentList(info_t *info)
     info->environment = node;
     return (0);
 }
+
 

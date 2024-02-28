@@ -9,21 +9,21 @@ int exit_shell(info_t *info)
 {
 	int exit_code;
 
-	if (info->argv[1])
+	if (info->arguments[1])
 	{
-		exit_code = safe_atoi(info->argv[1]);
+		exit_code = safe_atoi(info->arguments[1]);
 		if (exit_code == -1)
 		{
 			info->status = 2;
 			print_custom_err(info, "Illegal number: ");
-			_eputs(info->argv[1]);
+			_eputs(info->arguments[1]);
 			_eputchar('\n');
 			return (1);
 		}
-		info->err_num = safe_atoi(info->argv[1]);
+		info->errNum = safe_atoi(info->arguments[1]);
 		return (-2);
 	}
-	info->err_num = -1;
+	info->errNum = -1;
 	return (-2);
 }
 
@@ -40,38 +40,38 @@ int change_directory(info_t *info)
 	s = getcwd(buffer, 1024);
 	if (!s)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
-	if (!info->argv[1])
+	if (!info->arguments[1])
 	{
-		dir = _getenv(info, "HOME=");
+		dir = getEnvironmentVariable(info, "HOME=");
 		if (!dir)
 			chdir_result =
-				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+				chdir((dir = getEnvironmentVariable(info, "PWD=")) ? dir : "/");
 		else
 			chdir_result = chdir(dir);
 	}
-	else if (_strcmp(info->argv[1], "-") == 0)
+	else if (_strcmp(info->arguments[1], "-") == 0)
 	{
-		if (!_getenv(info, "OLDPWD="))
+		if (!getEnvironmentVariable(info, "OLDPWD="))
 		{
 			_puts(s);
 			_putchar('\n');
 			return (1);
 		}
-		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		_puts(getEnvironmentVariable(info, "OLDPWD=")), _putchar('\n');
 		chdir_result =
-			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+			chdir((dir = getEnvironmentVariable(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		chdir_result = chdir(info->argv[1]);
+		chdir_result = chdir(info->arguments[1]);
 	if (chdir_result == -1)
 	{
 		print_custom_err(info, "can't cd to ");
-		_eputs(info->argv[1]), _eputchar('\n');
+		_eputs(info->arguments[1]), _eputchar('\n');
 	}
 	else
 	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
+		setEnvironmentVariable(info, "OLDPWD", getEnvironmentVariable(info, "PWD="));
+		setEnvironmentVariable(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
@@ -85,7 +85,7 @@ int show_help(info_t *info)
 {
 	char **arg_arr;
 
-	arg_arr = info->argv;
+	arg_arr = info->arguments;
 	_puts("help call works. Function not yet implemented \n");
 	if (0)
 		_puts(*arg_arr);
@@ -108,15 +108,15 @@ int display_history(info_t *info)
  * manage_alias - mimics the alias builtin (man alias)
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
- *  Return: Always 0
+ *  Return: 0
  */
 int manage_alias(info_t *info)
 {
 	int i = 0;
 	char *p = NULL;
-	list_t *node = NULL;
+	str_list_t *node = NULL;
 
-	if (info->argc == 1)
+	if (info->argumentCount == 1)
 	{
 		node = info->alias;
 		while (node)
@@ -126,15 +126,16 @@ int manage_alias(info_t *info)
 		}
 		return (0);
 	}
-	for (i = 1; info->argv[i]; i++)
+	for (i = 1; info->arguments[i]; i++)
 	{
-		p = _strchr(info->argv[i], '=');
+		p = _strchr(info->arguments[i], '=');
 		if (p)
-			assign_alias(info, info->argv[i]);
+			assign_alias(info, info->arguments[i]);
 		else
-			display_alias(nodePrefix(info->alias, info->argv[i], '='));
+			display_alias(nodePrefix(info->alias, info->arguments[i], '='));
 	}
 
 	return (0);
 }
+
 

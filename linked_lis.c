@@ -58,7 +58,7 @@ str_list_t *addNodeEnd(str_list_t **head, const char *data, int num)
 	if (!new_node)
 		return (NULL);
 
-	_memset((void *)new_node, 0, sizeof(str_list_t));
+	memSet((void *)new_node, 0, sizeof(str_list_t));
 	new_node->num = num;
 
 	if (data)

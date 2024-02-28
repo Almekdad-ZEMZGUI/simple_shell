@@ -6,7 +6,7 @@
  *
  * Return: size of list
  */
-size_t listLen(const list_t *head)
+size_t listLen(const str_list_t *head)
 {
 	size_t length = 0;
 
@@ -24,9 +24,9 @@ size_t listLen(const list_t *head)
  *
  * Return: array of strings
  */
-char **listToString(list_t *head)
+char **listToString(str_list_t *head)
 {
-	list_t *node = head;
+	str_list_t *node = head;
 	size_t length = listLen(head), j;
 	char **result;
 	char *str;
@@ -61,18 +61,18 @@ char **listToString(list_t *head)
  *
  * Return: size of list
  */
-size_t printList(const list_t *head)
+size_t printList(const str_list_t *head)
 {
 	size_t length = 0;
 
 	while (head)
 	{
-		_puts(convert_number(head->num, 10, 0));
+		_puts(convert_to_string(head->num, 10, 0));
 		_putchar(':');
 		_putchar(' ');
 		_puts(head->str ? head->str : "(nil)");
 		_puts("\n");
-		haed = head->next;
+		head = head->next;
 		length++;
 	}
 	return (length);
@@ -86,7 +86,7 @@ size_t printList(const list_t *head)
  *
  * Return: last node, or null
  */
-list_t *nodePrefix(list_t *node, char *pre, char c)
+str_list_t *nodePrefix(str_list_t *node, char *pre, char c)
 {
 	char *ptr = NULL;
 
@@ -120,4 +120,5 @@ ssize_t getNodeIndex(list_t *head, list_t *node)
 	}
 	return (-1);
 }
+
 

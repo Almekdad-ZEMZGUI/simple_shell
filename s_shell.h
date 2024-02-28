@@ -39,7 +39,7 @@
 typedef struct StringList
 {
     int num;
-    char *data;
+    char *str;
     struct StringList *next;
 } str_list_t;
 
@@ -47,20 +47,20 @@ typedef struct StringList
  *struct passinfo - contains arguements to pass into a function
  *
  *@arg: string from getline containing arguments
- *@argv: array of strings
+ *@arguments: array of strings
  *@path: string path for current command
  *@fname: the program filename
- *@env: linkedlist local copy of environ
+ *@environment: linkedlist local copy of environ
  *@environ: custom modified copy of environ from env
  *@history: history node
  *@alias: alias node
  *@env_changed: on if environ was changed
  *@status: the return status of the last exec'd command
- *@cmd_buf: pointer
- *@cmd_buf_type: CMD_type
- *@readfd: fd from which to read line input
+ *@cmdBuffer: pointer
+ *@commandBufferType: CMD_type
+ *@readFd: fd from which to read line input
  *@histcount: history line number count
- *@argc: argument count
+ *@argumentCount: argument count
  *@lineCount: error count
  *@errNum: error code for exit
  *@lineCountFlag: on count this line of input
@@ -68,27 +68,27 @@ typedef struct StringList
 typedef struct passinfo
 {
 	char *arg;
-	char **argv;
+	char **arguments;
 	char *path;
 	char *fname;
-	str_list_t *env;
+	str_list_t *environment;
 	str_list_t *history;
 	str_list_t *alias;
 	char **environ;
-	int env_changed;
+	int environmentChanged;
 	int status;
 
-	char **cmd_buf;
-	int cmd_buf_type;
-	int readfd;
+	char **cmdBuffer;
+	int commandBufferType;
+	int readFd;
 	int histcount;
-	int argc;
+	int argumentCount;
 	unsigned int lineCount;
 	int errNum;
 	int lineCountFlag;
 } info_t;
 
-#define INFO_ZERO \
+#define INIT_INFO \
 {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0, 0, 0, 0, 0, }
 
@@ -217,7 +217,15 @@ int _eputchar(char c);
 int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
 
+/* fileio_func */
+char *getHistoryFile(info_t *info);
+int writeHistory(info_t *info);
+int readHistory(info_t *info);
+int buildHistoryList(info_t *info, char *buffer, int linecount);
+int renumberHistory(info_t *info);
+
 
 #endif /* _S_SHELL_ */
+
 
 

@@ -24,7 +24,7 @@ char **copyEnvironToStringArray(info_t *info)
  */
 int removeEnvironmentVariable(info_t *info, char *variable)
 {
-    list_t *node = info->env;
+    str_list_t *node = info->environment;
     size_t index = 0;
     char *p;
 
@@ -33,12 +33,12 @@ int removeEnvironmentVariable(info_t *info, char *variable)
 
     while (node)
     {
-        p = startsWith(node->str, variable);
+        p = _starts_with(node->str, variable);
         if (p && *p == '=')
         {
-            info->environmentChanged = deleteNodeAtIndex(&(info->env), index);
+            info->environmentChanged = deleteNodeAtIndex(&(info->environment), index);
             index = 0;
-            node = info->env;
+            node = info->environment;
             continue;
         }
         node = node->next;
@@ -58,7 +58,7 @@ int removeEnvironmentVariable(info_t *info, char *variable)
 int setEnvironmentVariable(info_t *info, char *variable, char *value)
 {
     char *buffer = NULL;
-    list_t *node;
+    str_list_t *node;
     char *p;
 
     if (!variable || !value)
@@ -70,7 +70,7 @@ int setEnvironmentVariable(info_t *info, char *variable, char *value)
     _strcpy(buffer, variable);
     _strcat(buffer, "=");
     _strcat(buffer, value);
-    node = info->env;
+    node = info->environment;
     while (node)
     {
         p = _starts_with(node->str, variable);
@@ -88,4 +88,5 @@ int setEnvironmentVariable(info_t *info, char *variable, char *value)
     info->environmentChanged = 1;
     return (0);
 }
+
 

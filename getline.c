@@ -31,7 +31,7 @@ ssize_t bufferInput(info_t *info, char **buffer, size_t *length)
 				bytesRead--;
 			}
 			info->lineCountFlag = 1;
-			removeComments(*buffer);
+			erase_comments(*buffer);
 			buildHistoryList(info, *buffer, info->histCount++);
 			*length = bytesRead;
 			info->cmdBuffer = buffer;
@@ -53,7 +53,7 @@ ssize_t getInput(info_t *info)
 	ssize_t bytesRead = 0;
 	char **bufferPointer = &(info->arg), *ptr;
 
-	_putchar(BUF_FLUSH);
+	_putchar(BUFFER_FLUSH);
 	bytesRead = bufferInput(info, &buffer, &length);
 	if (bytesRead == -1)
 		return -1;
@@ -73,7 +73,7 @@ ssize_t getInput(info_t *info)
 		if (i >= length)
 		{
 			i = length = 0;
-			info->cmdBufferType = CMD_NORMAL;
+			info->commandBufferType = COMMAND_NORMAL;
 		}
 
 		*bufferPointer = ptr;
@@ -132,7 +132,7 @@ int _getline(info_t *info, char **ptr, size_t *length)
 
 	c = _strchr(buf + bufferIndex, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : bufferLength;
-	newBuffer = _realloc(currentBuffer, totalBytesRead, totalBytesRead ? totalBytesRead + k : k + 1);
+	newBuffer = reallocateMemory(currentBuffer, totalBytesRead, totalBytesRead ? totalBytesRead + k : k + 1);
 	if (!newBuffer)
 		return currentBuffer ? free(currentBuffer), -1 : -1;
 
@@ -161,6 +161,7 @@ void interruptHandler(__attribute__((unused))int signalNumber)
 {
 	_puts("\n");
 	_puts("$ ");
-	_putchar(BUF_FLUSH);
+	_putchar(BUFFER_FLUSH);
 }
+
 

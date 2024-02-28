@@ -16,18 +16,18 @@ int isCommandChain(info_t *info, char *buffer, size_t *position)
 	{
 		buffer[index] = 0;
 		index++;
-		info->commandBufferType = CMD_OR;
+		info->commandBufferType = COMMAND_OR;
 	}
 	else if (buffer[index] == '&' && buffer[index + 1] == '&')
 	{
 		buffer[index] = 0;
 		index++;
-		info->commandBufferType = CMD_AND;
+		info->commandBufferType = COMMAND_AND;
 	}
 	else if (buffer[index] == ';') /* found end of this command */
 	{
 		buffer[index] = 0; /* replace semicolon with null */
-		info->commandBufferType = CMD_CHAIN;
+		info->commandBufferType = COMMAND_CHAIN;
 	}
 	else
 		return 0;
@@ -49,7 +49,7 @@ void checkCommandChain(info_t *info, char *buffer, size_t *position, size_t star
 {
 	size_t index = *position;
 
-	if (info->commandBufferType == CMD_AND)
+	if (info->commandBufferType == COMMAND_AND)
 	{
 		if (info->status)
 		{
@@ -57,7 +57,7 @@ void checkCommandChain(info_t *info, char *buffer, size_t *position, size_t star
 			index = length;
 		}
 	}
-	if (info->commandBufferType == CMD_OR)
+	if (info->commandBufferType == COMMAND_OR)
 	{
 		if (!info->status)
 		{
@@ -78,12 +78,12 @@ void checkCommandChain(info_t *info, char *buffer, size_t *position, size_t star
 int replaceAliases(info_t *info)
 {
 	int i;
-	list_t *node;
+	str_list_t *node;
 	char *p;
 
 	for (i = 0; i < 10; i++)
 	{
-		node = nodeStartsWith(info->alias, info->arguments[0], '=');
+		node = nodePrefix(info->alias, info->arguments[0], '=');
 		if (!node)
 			return 0;
 		free(info->arguments[0]);
@@ -107,7 +107,7 @@ int replaceAliases(info_t *info)
 int replaceVariables(info_t *info)
 {
 	int i = 0;
-	list_t *node;
+	str_list_t *node;
 
 	for (i = 0; info->arguments[i]; i++)
 	{
@@ -117,16 +117,16 @@ int replaceVariables(info_t *info)
 		if (!_strcmp(info->arguments[i], "$?"))
 		{
 			replaceString(&(info->arguments[i]),
-				_strdup(convertNumber(info->status, 10, 0)));
+				_strdup(convert_to_string(info->status, 10, 0)));
 			continue;
 		}
 		if (!_strcmp(info->arguments[i], "$$"))
 		{
 			replaceString(&(info->arguments[i]),
-				_strdup(convertNumber(getpid(), 10, 0)));
+				_strdup(convert_to_string(getpid(), 10, 0)));
 			continue;
 		}
-		node = nodeStartsWith(info->env, &info->arguments[i][1], '=');
+		node = nodePrefix(info->env, &info->arguments[i][1], '=');
 		if (node)
 		{
 			replaceString(&(info->arguments[i]),
@@ -152,5 +152,6 @@ int replaceString(char **oldString, char *newString)
 	*oldString = newString;
 	return 1;
 }
+
 
 
