@@ -44,17 +44,6 @@ typedef struct StringList
 } str_list_t;
 
 /**
- *struct builtin - contains a builtin string and related function
- *@type: the builtin command
- *@func: the function
- */
-typedef struct builtin
-{
-	char *type;
-	int (*func)(info_t *);
-} _builtin_tbl;
-
-/**
  *struct passinfo - contains arguements to pass into a function
  *
  *@arg: string from getline containing arguments
@@ -72,9 +61,9 @@ typedef struct builtin
  *@readfd: fd from which to read line input
  *@histcount: history line number count
  *@argc: argument count
- *@line_count: error count
- *@err_num: error code for exit
- *@linecount_flag: on count this line of input
+ *@lineCount: error count
+ *@errNum: error code for exit
+ *@lineCountFlag: on count this line of input
  */
 typedef struct passinfo
 {
@@ -82,9 +71,9 @@ typedef struct passinfo
 	char **argv;
 	char *path;
 	char *fname;
-	list_t *env;
-	list_t *history;
-	list_t *alias;
+	str_list_t *env;
+	str_list_t *history;
+	str_list_t *alias;
 	char **environ;
 	int env_changed;
 	int status;
@@ -94,15 +83,25 @@ typedef struct passinfo
 	int readfd;
 	int histcount;
 	int argc;
-	unsigned int line_count;
-	int err_num;
-	int linecount_flag;
+	unsigned int lineCount;
+	int errNum;
+	int lineCountFlag;
 } info_t;
 
 #define INFO_ZERO \
 {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0, 0, 0, 0, 0, }
 
+/**
+ *struct builtin - contains a builtin string and related function
+ *@type: the builtin command
+ *@func: the function
+ */
+typedef struct builtin
+{
+	char *type;
+	int (*func)(info_t *);
+} _builtin_tbl;
 
 /* str_func1 */
 int _strlen(char *str);
@@ -139,11 +138,11 @@ int deleteNodeAtIndex(str_list_t **head, unsigned int index);
 void freeList(str_list_t **head_ptr);
 
 /* likend_lis2 */
-size_t listLen(const list_t *head);
-char **listToString(list_t *head);
-size_t printList(const list_t *head);
-list_t *nodePrefix(list_t *node, char *pre, char c);
-ssize_t getNodeIndex(list_t *head, list_t *node);
+size_t listLen(const str_list_t *head);
+char **listToString(str_list_t *head);
+size_t printList(const str_list_t *head);
+str_list_t *nodePrefix(str_list_t *node, char *pre, char c);
+ssize_t getNodeIndex(str_list_t *head, str_list_t *node);
 
 /* func_helpers1 */
 int check_interactive_mode(info_t *info);
@@ -168,7 +167,7 @@ int manage_alias(info_t *info);
 /* builtin_sub_func */
 int remove_alias(info_t *info, char *str);
 int assign_alias(info_t *info, char *str);
-int display_alias(list_t *node);
+int display_alias(str_list_t *node);
 
 /* getline */
 ssize_t bufferInput(info_t *info, char **buffer, size_t *length);
@@ -212,6 +211,13 @@ int isCmd(info_t *info, char *path);
 char *dupChars(char *pathstr, int start, int stop);
 char *findPath(info_t *info, char *spath, char *cmd);
 
+/* error_func */
+void _eputs(char *str);
+int _eputchar(char c);
+int _putfd(char c, int fd);
+int _putsfd(char *str, int fd);
+
 
 #endif /* _S_SHELL_ */
+
 

@@ -1,3 +1,4 @@
+
 #include "shell.h"
 
 /**
@@ -17,7 +18,7 @@ int shellLoop(info_t *info, char **argv)
         clearInfo(info);
         if (interactive(info))
             _puts("$ ");
-        _eputchar(BUF_FLUSH);
+        _eputchar(BUFFER_FLUSH);
         bytesRead = getInput(info);
         if (bytesRead != -1)
         {
@@ -108,7 +109,7 @@ void findCommand(info_t *info)
     }
     else
     {
-        if ((interactive(info) || getEnvironmentVariable(info, "PATH=") || info->argv[0][0] == '/') && isCommand(info, info->argv[0]))
+        if ((interactive(info) || getEnvironmentVariable(info, "PATH=") || info->argv[0][0] == '/') && isCmd(info, info->argv[0]))
             forkCommand(info);
         else if (*(info->arg) != '\n')
         {
